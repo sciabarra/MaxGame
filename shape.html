@@ -15,6 +15,7 @@
     <script src="node_modules/three/three.js"></script>
 		<script src="node_modules/three/examples/js/controls/VRControls.js"></script>
 		<script src="node_modules/three/examples/js/effects/VREffect.js"></script>
+		<script src="node_modules/three/examples/js/loaders/OBJLOader.js"></script>
 		<script src="lib/webvr-polyfill.js"></script>
 	</head>
 	<body>
@@ -35,21 +36,36 @@
 			var material = new THREE.MeshLambertMaterial({color: 0xf6546a})
 			var cube = new THREE.Mesh( geometry, material );
 			cube.position.z = -3
-			scene.add( cube );
+			//scene.add( cube );
+
+			  var circleRadius = 0.05;
+				var circleShape = new THREE.Shape();
+				circleShape.moveTo( 0, circleRadius );
+				circleShape.quadraticCurveTo( circleRadius, circleRadius, circleRadius, 0 );
+				circleShape.quadraticCurveTo( circleRadius, -circleRadius, 0, -circleRadius );
+				circleShape.quadraticCurveTo( -circleRadius, -circleRadius, -circleRadius, 0 );
+				circleShape.quadraticCurveTo( -circleRadius, circleRadius, 0, circleRadius );
+
+			var r = 0.1
+			var circle = new THREE.Shape()
+			//circle.moveTo(0,0)
+			circle.absarc(0,0,r,0,Math.PI*2,false)
+			var hole = new THREE.Path()
+			//hole.moveTo(0,0)
+			hole.absarc(0,0,r/2,0,Math.PI*2,false)
+			circle.holes.push(hole)
+			console.log(circle)
+			var mesh = new THREE.Mesh( circle.makeGeometry(),
+								 new THREE.MeshBasicMaterial( { color: "blue", side: THREE.DoubleSide } ) );
+			mesh.position.set( 0, 0, -0.8);
+			//mesh.rotation.set( rx, ry, rz );
+			//mesh.scale.set( s, s, s );
+			camera.add(mesh)
+			scene.add(camera)
 
 
-			var circleRadius = 40;
-			var circleShape = new THREE.Shape();
-			circleShape.moveTo( 0, circleRadius );
-			circleShape.quadraticCurveTo( circleRadius, circleRadius, circleRadius, 0 );
-			circleShape.quadraticCurveTo( circleRadius, -circleRadius, 0, -circleRadius );
-			circleShape.quadraticCurveTo( -circleRadius, -circleRadius, -circleRadius, 0 );
-			circleShape.quadraticCurveTo( -circleRadius, circleRadius, 0, circleRadius );
-
-
-
-			var light = new THREE.PointLight(0xffffff, 1.2);
-      light.position.set(0, 0, 6);
+			var light = new THREE.PointLight(0xffffff, 0.8);
+      light.position.set(0, 0, 0);
       scene.add( light );
 			//camera.position.z = 5;
 
@@ -71,7 +87,23 @@
 			  var skybox = new THREE.Mesh(geometry, material);
 			  scene.add(skybox);
 
-			});/**/
+			});
+
+			var objloader = new THREE.OBJLoader();
+			objloader.load('img/arrow4.obj', function(obj) {
+				obj.position.set(0,-3,-3)
+				obj.rotation.set(90,0,-90)
+				scene.add(obj)
+			});
+
+/*
+			objloader.load('img/arrow4.obj', function(obj) {
+				//obj.position.set(0,-3,3)
+				//obj.rotation.set(-90,0,-90)
+				scene.add(obj)
+			});
+
+*/
 
 
 			// render loop

@@ -1,0 +1,29 @@
+materials = [
+     ['grass', 'dirt', 'grass_dirt'], //ZOLLA = 0
+     'brick', //MATTONE = 1
+     'grass', // ERBA = 2
+     'plank', // LEGNO = 3
+     'bedrock', // ROCCIA = 4
+     'obsidian', // NERO = 5
+     'whitewool', // BIANCO = 6
+     'bluewool', // BLU = 7
+     'cobblestone', // PIETRA = 8
+     'crate', // CASSA = 9
+     'diamond', // DIAMANTE = 10
+     'dirt', // TERRA = 11
+     'glowstone', //LUCCICA = 11
+     'netherrack', // RUBINO = 12
+     'redwool', // ROSSO = 13
+     'parts-132', // VETRO = 14
+     'albero' ,// ALBERO = 15
+     'acquachiara' ,// ACQUA = 16
+     'fiamma' ,// FIAMMA = 17
+     'celeste' ,// CELESTE = 18
+     'finestra' ,// FINESTRA = 19
+     'porta' ,// PORTA = 20
+     'foglie' ,// FOGLIE = 21
+     'fiaccola' ,// FIACCOLA = 22
+     'vetrata' ,// VETRATA = 23
+     'ringhiera' ,// RINGHIERA = 24
+ ];
+ 

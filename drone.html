@@ -32,26 +32,42 @@
 			effect.setSize( window.innerWidth, window.innerHeight );
 
       // scene
-			var loader = new THREE.STLLoader()
-			var mesh = undefined
-			loader.load('drone.stl', function(geometry) {
-				console.log("loaded")
-				var material = new THREE.MeshPhongMaterial( { color: 0xff5533, specular: 0x111111, shininess: 200 } );
-				mesh = new THREE.Mesh( geometry, material );
-				mesh.position.set(0,0,-3);
-				mesh.scale.set(1,1,1);
-				scene.add(mesh)
-			})
+			var cube
+/*
+			var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+			var material = new THREE.MeshLambertMaterial({color: 0xf6546a})
+			var cube = new THREE.Mesh( geometry, material );
+			cube.position.z = -3
+			scene.add( cube );
+*/
 
+        var loader = new THREE.STLLoader();
+				loader.load( './drone.stl', function ( geometry ) {
+					var material = new THREE.MeshPhongMaterial( { color: 0xff5533, specular: 0x111111, shininess: 200 } );
+					var mesh = new THREE.Mesh( geometry, material );
+					mesh.position.set( 0, - 0.25, 0.6 );
+					mesh.rotation.set( 0, - Math.PI / 2, 0 );
+					mesh.scale.set( 0.1, 0.1, 0.1 );
+					mesh.castShadow = true;
+					mesh.receiveShadow = true;
+					scene.add( mesh );
+					cube = mesh
+					console.log(mesh.position)
+					mesh.position.x = 0
+					mesh.position.y = 0
+					mesh.position.z = -20
+				} );
 
 			// light
 			var light = new THREE.PointLight(0xffffff, 1.2);
       light.position.set(0, 0, 6);
       scene.add( light );
+			//camera.position.z = 5;
 
-			var boxWidth = 20;
+
+			var boxWidth = 200;
 			var loader = new THREE.TextureLoader();
-			loader.load('img/box.png', function(texture) {
+			loader.load('img/vr.jpg', function(texture) {
 				texture.wrapS = THREE.RepeatWrapping;
 			  texture.wrapT = THREE.RepeatWrapping;
 			  texture.repeat.set(boxWidth, boxWidth);
@@ -73,10 +89,11 @@
 			// render loop
 			var display = null
 			var render = function () {
-				/*if(mesh) {
-					mesh.rotation.x += 0.01;
-					mesh.rotation.y += 0.02;
-				}*/
+				if(cube) {
+				 cube.rotation.x += 0.01;
+				 cube.rotation.z += 0.02;
+				 cube.rotation.y += 0.01;
+				}
 				controls.update()
 				effect.render(scene, camera);
 				display.requestAnimationFrame( render );

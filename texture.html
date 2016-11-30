@@ -20,57 +20,73 @@
 	<body>
 		<input id="vr" style="position: absolute; top:0%;left:0%;z-index:1;width:10%" type="image" src="img/vr.png">
 		<script>
+           // textures
+            var zolla = ['grass.png', 'dirt.png', 'grass_dirt.png'] //ZOLLA = 0
+            var loader = new THREE.TextureLoader();
+			var b = 'img/textures/'
+			texture0 = loader.load(b+zolla[0])
+			texture1 = loader.load(b+zolla[1])
+			texture2 = loader.load(b+zolla[2])
+			materials = []
+			materials.push(new THREE.MeshBasicMaterial({map: texture2}))
+			materials.push(new THREE.MeshBasicMaterial({map: texture2}))
+			materials.push(new THREE.MeshBasicMaterial({map: texture0}))
+			materials.push(new THREE.MeshBasicMaterial({map: texture1}))
+			materials.push(new THREE.MeshBasicMaterial({map: texture2}))
+			materials.push(new THREE.MeshBasicMaterial({map: texture2}))
+
+	       var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+			var material = new THREE.MeshFaceMaterial(materials)
+			var cube = new THREE.Mesh( geometry, material );
+		</script>
+
+		<script>
+
+
+			//console.log(textures)
 		  var renderer = new THREE.WebGLRenderer();
+			renderer.setClearColor(new THREE.Color(0xEEEEEE, 1.0));
 			//renderer.setPixelRatio(Math.floor(window.devicePixelRatio));
 			document.body.appendChild( renderer.domElement );
 
 			var scene = new THREE.Scene();
 			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
-
 			var controls = new THREE.VRControls(camera);
 			var effect = new THREE.VREffect(renderer)
 			effect.setSize( window.innerWidth, window.innerHeight );
+			var light = new THREE.AmbientLight(0x141414);
+            scene.add( light );
+			var light = new THREE.DirectionalLight();
+            light.position.set(0, 30, 20);
+            scene.add(light);
 
-      // scene
-			var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-			var material = new THREE.MeshLambertMaterial({color: 0xf6546a})
-			var cube = new THREE.Mesh( geometry, material );
+    
+
 			cube.position.z = -3
-			scene.add( cube );
+			scene.add( cube );/**/
 
-		  var r = 0.01;
-			var circleShape = new THREE.Shape();
-			//circleShape.moveTo(r,r);
-			circleShape.absarc(0,0,r,0,Math.PI*2,true)
-			var holePath = new THREE.Path()
-			holePath.absarc(0,0,r/2,0,Math.PI*2,true)
-			circleShape.holes.push(holePath)
-
-			/*var holeShape = new THREE.Shape()
-			holeShape.absarc(0,0,r/2,0,Math.PI*2,true)
-			scene.add(new THREE.Mesh(holeShape.makeGeometry(),
-			   new THREE.MeshBasicMaterial( { color: "green", side: THREE.DoubleSide } ) ))*/
-
-      var geometry = new THREE.ShapeGeometry( circleShape );
-			var mesh = new THREE.Mesh( geometry,
-				new THREE.MeshBasicMaterial( { color: "blue", side: THREE.DoubleSide } ) );
-			mesh.position.set( 0, 0, -0.5);
-			camera.add(mesh)
-			scene.add(camera)
-			//mesh.rotation.set( rx, ry, rz );
-			//mesh.scale.set( s, s, s );
-			//scene.add( mesh );
+			var loader = new THREE.TextureLoader()
+			var texture = loader.load("img/textures/brick.png")
+			console.log(texture)
+	    var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+			var material = new THREE.MeshPhongMaterial({map: texture})
+			var cube1 = new THREE.Mesh( geometry, material );
+			cube1.position.z = -3
+			cube1.position.x = +2
+			scene.add( cube1 );
+			
 
 
-			var light = new THREE.PointLight(0xffffff, 0.8);
-      light.position.set(0, 0, 0);
-      scene.add( light );
+			// light
+			//var light = new THREE.PointLight(0xffffff, 1.2);
+      //light.position.set(0, 0, 6);
 			//camera.position.z = 5;
 
 
-			var boxWidth = 20;
+			/*var boxWidth = 20;
 			var loader = new THREE.TextureLoader();
-			loader.load('img/matrix.png', function(texture) {
+			loader.load('img/box.png', function(texture) {
+				console.log(texture)
 				texture.wrapS = THREE.RepeatWrapping;
 			  texture.wrapT = THREE.RepeatWrapping;
 			  texture.repeat.set(boxWidth, boxWidth);
@@ -89,12 +105,18 @@
 
 
 
-
 			// render loop
 			var display = null
 			var render = function () {
-				cube.rotation.x += 0.01;
-				cube.rotation.y += 0.02;
+				if(cube) {
+				  cube.rotation.x += 0.01;
+				  cube.rotation.y += 0.02;
+				}
+				if(cube1) {
+				  cube1.rotation.y += 0.01;
+				  cube1.rotation.z += 0.02;
+				}
+				
 				controls.update()
 				effect.render(scene, camera);
 				display.requestAnimationFrame( render );
@@ -102,28 +124,28 @@
 			navigator.getVRDisplays().then(function(displays) {
 				if (displays.length > 0) {
 					 display = displays[0];
-					 console.log(display)
+					 //console.log(display)
 					 display.requestAnimationFrame(render)
 				}
 			});
 
 			// resizing
 			function onResize() {
-			  console.log('Resizing to %s x %s.', window.innerWidth, window.innerHeight);
+			  //console.log('Resizing to %s x %s.', window.innerWidth, window.innerHeight);
 			  effect.setSize(window.innerWidth, window.innerHeight);
 			  camera.aspect = window.innerWidth / window.innerHeight;
 			  camera.updateProjectionMatrix();
 			}
 			window.addEventListener('resize', onResize);
 			window.addEventListener('vrdisplaypresentchange', function() {
-				console.log("vrdisplaypresentchange")
+				//console.log("vrdisplaypresentchange")
 				onResize()
 			});
 
 
 		// go vr
 		document.querySelector("input#vr").addEventListener('click', function() {
-		  console.log("presenting")
+		  //console.log("presenting")
 			display.requestPresent([{source: renderer.domElement}]);
 		})
 		</script>

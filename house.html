@@ -37,18 +37,8 @@
 			effect.setSize( window.innerWidth, window.innerHeight );
 			var light = new THREE.AmbientLight(0xffffff);
       scene.add( light );
-			//var light = new THREE.DirectionalLight();
-      //light.position.set(0, 30, 20);
-      //scene.add(light);
-			//var light = new THREE.DirectionalLight();
-      //light.position.set(0, -30, 20);
-      //scene.add(light);
+		
 
-    //scene.add(block(1, 1, 0, -3))
-	 	 //scene.add(ablock([0, 0, -3, 1]))
-		 //scene.add(ablock([1, 0, -3, 2]))
-	
-	
 			console.log(house.length)
 			for(i=0; i<house.length; i++) {
 				var h = house[i]
@@ -62,12 +52,10 @@
 
 			for(i=-10; i<=10; i++)
 			 for(j=-10; j<=10; j++)
-			  scene.add(block(1, i,0,j))
+			  scene.add(block(1, i,-1,j))
   	
 		
-		
-		//scene.add(block(2, 2, 0, -3))
-
+	
 			// render loop
 			var display = null
 			var p = 0

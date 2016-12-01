@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Demo</title>
+		<style>
+			body { margin: 0; }
+			canvas { width: 100%; height: 100% }
+		</style>
+		<script>
+		WebVRConfig = {
+		  BUFFER_SCALE: 1.0,
+		  //FORCE_ENABLE_VR: true, // Default: false.
+		};
+		</script>
+    <script src="node_modules/three/three.js"></script>
+		<script src="node_modules/three/examples/js/effects/VREffect.js"></script>
+		<script src="lib/webvr-polyfill.js"></script>
+	</head>
+	<body>
+		<input id="vr" style="position: absolute; top:0%;left:0%;z-index:1;width:10%" type="image" src="img/vr.png">
+		<script>
+		  var renderer = new THREE.WebGLRenderer();
+			document.body.appendChild( renderer.domElement );
+			var scene = new THREE.Scene();
+			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+			//var camera = new THREE.OrthographicCamera( window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, -1, 1 )
+			var effect = new THREE.VREffect(renderer)
+		  camera.position.y = 4
+			effect.setSize( window.innerWidth, window.innerHeight );
+		</script>
+		<script src="controls.js"></script>
+		<script>
+			var light = new THREE.PointLight(0xffffff, 0.8);
+      light.position.set(0, 0, 0);
+      scene.add( light );
+
+			var boxWidth = 20;
+			var loader = new THREE.TextureLoader();
+			loader.load('img/matrix.png', function(texture) {
+				texture.wrapS = THREE.RepeatWrapping;
+			  texture.wrapT = THREE.RepeatWrapping;
+			  texture.repeat.set(boxWidth, boxWidth);
+
+			  var geometry = new THREE.BoxGeometry(boxWidth, boxWidth, boxWidth);
+			  var material = new THREE.MeshBasicMaterial({
+			    map: texture,
+			    color: 0x01BE00,
+			    side: THREE.BackSide
+			  });
+
+			  var skybox = new THREE.Mesh(geometry, material);
+			  scene.add(skybox);
+
+			});/**/
+		 </script>
+		 <script>
+			// render loop
+			var display = undefined
+			var render = function () {
+				effect.render(scene, camera);
+				detect(camera, display)
+				display.requestAnimationFrame( render );
+			};
+			navigator.getVRDisplays().then(function(displays) {
+				if (displays.length > 0) {
+					 display = displays[0];
+					 //console.log(display)
+					 display.requestAnimationFrame(render)
+				}
+			});
+
+			// resizing
+			function onResize() {
+			  //console.log('Resizing to %s x %s.', window.innerWidth, window.innerHeight);
+			  effect.setSize(window.innerWidth, window.innerHeight);
+			  camera.aspect = window.innerWidth / window.innerHeight;
+			  camera.updateProjectionMatrix();
+			}
+			window.addEventListener('resize', onResize);
+			window.addEventListener('vrdisplaypresentchange', onResize);
+
+			function enterFullscreen (el) {
+			  if (el.requestFullscreen) {
+			    el.requestFullscreen();
+			  } else if (el.mozRequestFullScreen) {
+			    el.mozRequestFullScreen();
+			  } else if (el.webkitRequestFullscreen) {
+			    el.webkitRequestFullscreen();
+			  } else if (el.msRequestFullscreen) {
+			    el.msRequestFullscreen();
+			  }
+			}
+		// go vr
+		document.querySelector("input#vr").addEventListener('click', function() {
+		  //console.log("presenting")
+			document.getElementById("vr").style.visibility = 'hidden'
+			display.requestPresent([{source: renderer.domElement}]);
+			enterFullScreen(renderer.domElement)
+		})
+		</script>
+	</body>
+</html>

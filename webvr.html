@@ -13,7 +13,6 @@
 		};
 		</script>
     <script src="node_modules/three/three.js"></script>
-		<script src="node_modules/three/examples/js/controls/VRControls.js"></script>
 		<script src="node_modules/three/examples/js/effects/VREffect.js"></script>
 		<script src="lib/webvr-polyfill.js"></script>
 	</head>
@@ -27,15 +26,13 @@
 			var scene = new THREE.Scene();
 			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
 
-			var controls = new THREE.VRControls(camera);
 			var effect = new THREE.VREffect(renderer)
 			effect.setSize( window.innerWidth, window.innerHeight );
-
 
 			// arrow
 			function v(x,z) { return new THREE.Vector3(x,0,z); }
 			function f(a,b,c) { return new THREE.Face3(a,b,c); }
-	        var vertices = [ v(0,0),
+	    var vertices = [ v(0,0),
 			  v(-2,2), v(2,2), v(-2,-2), v(2,-2),
 			  v(0,3), v(3,0), v(0,-3), v(-3,0),
 			  v(0,5), v(5,0), v(0,-5), v(-5,0) ]
@@ -47,39 +44,50 @@
                 console.log(geo)
     		    geo.computeBoundingSphere();
  			    var mesh = new THREE.Mesh( geo,
-				  new THREE.MeshBasicMaterial( 
+				  new THREE.MeshBasicMaterial(
                       { color: "white", side: THREE.DoubleSide } ) );
  	            mesh.trigger = trigger;
                 mesh.position.y = -3
                 return mesh;
             }
 
-	         var bk = arrow(vertices, [f(9,1,5), f(9,5,2)], function() {
-                 console.log("bk")
-                 //controls.position.z -= 0.01
+	         var bk = arrow(vertices, [f(9,1,5), f(9,5,2)], function(camera, cursors) {
+                 console.log("bk!!!")
+                 camera.position.z += 0.01
+								 cursors.position.z += 0.01
              })
-	    	 var rt = arrow(vertices, [f(2,10,6), f(6,10,4)], function(){
-                 console.log("rt")
-                 //controls.position.x += 0.01
+	    	 	var rt = arrow(vertices, [f(2,10,6), f(6,10,4)], function(camera, cursors){
+                 console.log("rt!!!")
+                 camera.position.x += 0.01
+								 cursors.position.x += 0.01
              })
-	    	 var lf = arrow(vertices, [f(1,12,8), f(12,8,3)], function(){
-                 console.log("lf")
-                 //controls.position.x -= 0.01
+	    	 	var lf = arrow(vertices, [f(1,12,8), f(12,8,3)], function(camera, cursors){
+                 console.log("lf!!!")
+                 camera.position.x -= 0.01
+								 cursors.position.x -= 0.01
              })
-	    	 var fw = arrow(vertices, [ f(3,11,7), f(7,4,11)], function(){
-                 console.log("fw")
-                 //controls.position.z += 0.01
+	    	 	var fw = arrow(vertices, [ f(3,11,7), f(7,4,11)], function(camera, cursors){
+                 console.log("fw!!!")
+                 camera.position.z -= 0.01
+								 cursors.position.z -= 0.01
              })
 
-            var cursors = [fw, rt, lf, bk]
 
-            scene.add(fw)
-			scene.add(rt)
-			scene.add(bk)
-            scene.add(lf)
+						var cursors = new THREE.Object3D()
+						cursors.add(fw)
+						cursors.add(rt)
+						cursors.add(bk)
+						cursors.add(lf)
+						scene.add(cursors)
+
+						//var cursors = [fw, rt, lf, bk]
+            //scene.add(fw)
+						//scene.add(rt)
+						//scene.add(bk)
+            //scene.add(lf)
 
 			// cursor
-		    var r = 0.01;
+		  var r = 0.01;
 			var circleShape = new THREE.Shape();
 			//circleShape.moveTo(r,r);
 			circleShape.absarc(0,0,r,0,Math.PI*2,true)
@@ -87,7 +95,7 @@
 			holePath.absarc(0,0,r/2,0,Math.PI*2,true)
 			circleShape.holes.push(holePath)
 
-            var geometry = new THREE.ShapeGeometry( circleShape );
+      var geometry = new THREE.ShapeGeometry( circleShape );
 			var mesh = new THREE.Mesh( geometry,
 				new THREE.MeshBasicMaterial( { color: "green", side: THREE.DoubleSide } ) );
 			mesh.position.set( 0, 0, -0.5);
@@ -121,33 +129,39 @@
 
 			var raycaster = new THREE.Raycaster()
 			var center = new THREE.Vector2(0,0)
- 			function detect() {
-				raycaster.setFromCamera(center, camera)
-                for(var i=0; i<cursors.length; i++) {
-                    var cursor = cursors[i]
-                    var intersected = raycaster.intersectObject(cursor)
-                    //console.log(intersected)
-                    if(intersected.length>0) {
-                        //console.log("ok")
-                        cursor.material.color.set("yellow")
-                        cursor.trigger()
-                    } else  {
-                        //console.log("KO")
-                        cursor.material.color.set("white")
-                    }/**/
-                }
-			}
 
 			// render loop
-			var display = null
+			var display = undefined
+
+			function detect(camera, cursors) {
+
+
+				camera.quaternion.fromArray( display.getPose().orientation );
+
+				raycaster.setFromCamera(center, camera)
+				for(var i=0; i<cursors.children.length; i++) {
+						var cursor = cursors.children[i]
+						var intersected = raycaster.intersectObject(cursor)
+						//console.log(intersected)
+						if(intersected.length>0) {
+								//console.log("ok")
+								cursor.material.color.set("yellow")
+								cursor.trigger(camera, cursors)
+						} else  {
+								//console.log("KO")
+								cursor.material.color.set("white")
+						}/**/
+				}
+			}
+
 			var render = function () {
 				//cursor.rotation.x += 0.01;
 				//cube.rotation.y += 0.02;
-			    controls.update()
 				effect.render(scene, camera);
-				detect()
+				detect(camera, cursors)
 				display.requestAnimationFrame( render );
 			};
+
 			navigator.getVRDisplays().then(function(displays) {
 				if (displays.length > 0) {
 					 display = displays[0];

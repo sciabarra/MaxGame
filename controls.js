@@ -49,7 +49,7 @@ function arrow(vertices, faces, delta, trigger) {
       scene.add(cursors)
 
       // cursor
-      var r = 0.1;
+      var r = 0.01;
       var circleShape = new THREE.Shape();
       circleShape.absarc(0,0,r,0,Math.PI*2,true)
       var holePath = new THREE.Path()
@@ -79,11 +79,12 @@ function arrow(vertices, faces, delta, trigger) {
                 //console.log("ok")
                 cursor.material.color.set("yellow")
                 cursor.trigger(camera, cursors)
-                cursors.position.x = camera.position.x
-                cursors.position.z = camera.position.z
+                console.log(camera.position)
             } else  {
                 //console.log("KO")
                 cursor.material.color.set("white")
             }/**/
         }
+        cursors.position.x = camera.position.x
+        cursors.position.z = camera.position.z
       }

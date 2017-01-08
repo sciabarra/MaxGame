@@ -26,19 +26,19 @@ function arrow(vertices, faces, delta, trigger) {
 
      var bk = arrow(vertices, [f(9,1,5), f(9,5,2)], [0,0,0], function(camera, cursors) {
            //console.log("bk!!!")
-           camera.position.z += 0.01
+           camera.position.z += 0.05
        })
     var rt = arrow(vertices, [f(2,10,6), f(6,10,4)], [0,0,0] , function(camera, cursors){
            //console.log("rt!!!")
-           camera.position.x += 0.01
+           camera.position.x += 0.05
        })
     var lf = arrow(vertices, [f(1,12,8), f(12,8,3)], [0, 0,0], function(camera, cursors){
            //console.log("lf!!!")
-           camera.position.x -= 0.01
+           camera.position.x -= 0.05
        })
     var fw = arrow(vertices, [ f(3,11,7), f(7,4,11)], [0, 0,0], function(camera, cursors){
            //console.log("fw!!!")
-           camera.position.z -= 0.01
+           camera.position.z -= 0.05
        })
 
       var cursors = new THREE.Object3D()

@@ -1,3 +1,0 @@
-# Max' Game
-
-with VR!

@@ -7,9 +7,18 @@
 			body { margin: 0; }
 			canvas { width: 100%; height: 100% }
 		</style>
+		<script src="/node_modules/three/three.js"></script>
 	</head>
-	<body>
-		<script src="node_modules/three/three.js"></script>
-		<script src="start.js"></script>
+	<body id="body">
 	</body>
+	<script>
+		var a = window.location.href.split("?")
+		var file = "/start.js"
+		if(a.length == 2)
+			file = "/"+a[1]+".js"
+		var scr = document.createElement('script');
+		scr.setAttribute('src',file);
+		document.getElementById("body").appendChild(scr);
+		console.log(file)
+	</script>
 </html>

@@ -14,8 +14,12 @@
 	<script>
 		var a = window.location.href.split("?")
 		var file = "/start.js"
-		if(a.length == 2)
+		if(a.length == 2) {
 			file = "/"+a[1]+".js"
+			document.title = a[1]
+		} else {
+			document.title = "room"
+		}
 		var scr = document.createElement('script');
 		scr.setAttribute('src',file);
 		document.getElementById("body").appendChild(scr);

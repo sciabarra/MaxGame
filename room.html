@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<title>Hello World (Three.js)</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel=stylesheet href="lib/base.css"/>
+</head>
+<body id="body">
+
+<script src="node_modules/three/three.min.js"></script>
+<script src="node_modules/jquery/dist/jquery.min.js"></script>
+<script src="lib/OrbitControls.js"></script>
+
+<!-- ------------------------------------------------------------ -->
+<div id="ThreeJS" style="z-index: 1; position: absolute; left:0px; top:0px"></div>
+<script>
+// standard global variables
+var container, scene, camera, renderer, controls;
+init();
+var clock = new THREE.Clock();
+
+// function to redefine for animations
+var animate = function (delta) {
+	// do something
+}
+
+// initialization
+
+///////////////
+// FUNCTIONS //
+///////////////
+
+function init()
+{
+	///////////
+	// SCENE //
+	///////////
+	scene = new THREE.Scene();
+
+	////////////
+	// CAMERA //
+	////////////
+
+	// set the view size in pixels (custom or according to window size)
+	// var SCREEN_WIDTH = 400, SCREEN_HEIGHT = 300;
+	var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
+	// camera attributes
+	var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
+	// set up camera
+	camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
+	// add the camera to the scene
+	scene.add(camera);
+	// the camera defaults to position (0,0,0)
+	// 	so pull it back (z = 400) and up (y = 100) and set the angle towards the scene origin
+	camera.position.set(0,150,400);
+	camera.lookAt(scene.position);
+
+	//////////////
+	// RENDERER //
+	//////////////
+
+	renderer = new THREE.WebGLRenderer( {antialias:true} );
+	renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	container = document.getElementById( 'ThreeJS' );
+	container.appendChild( renderer.domElement );
+
+	//////////////
+	// CONTROLS //
+	//////////////
+
+	// move mouse and: left   click to rotate,
+	//                 middle click to zoom,
+	//                 right  click to pan
+	controls = new THREE.OrbitControls( camera, renderer.domElement );
+
+	///////////
+	// LIGHT //
+	///////////
+
+	// create a light
+	var light = new THREE.PointLight(0xffffff);
+	light.position.set(0,250,100);
+	scene.add(light);
+	var ambientLight = new THREE.AmbientLight(0x111111);
+	scene.add(ambientLight);
+
+	//////////////
+	// GEOMETRY //
+	//////////////
+
+	// create a set of coordinate axes to help orient user
+	//    specify length in pixels in each direction
+	var axes = new THREE.AxisHelper(100);
+	scene.add( axes );
+
+	///////////
+	// FLOOR //
+	///////////
+
+	// note: 4x4 checkboard pattern scaled so that each square is 25 by 25 pixels.
+	var floorTexture = new THREE.ImageUtils.loadTexture( '/img/checkerboard.jpg' );
+	floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
+	floorTexture.repeat.set( 10, 10 );
+
+	// DoubleSide: render texture on both sides of mesh
+	var floorMaterial = new THREE.MeshBasicMaterial( { map: floorTexture, side: THREE.DoubleSide } );
+	var floorGeometry = new THREE.PlaneGeometry(1000, 1000, 1, 1);
+	var floor = new THREE.Mesh(floorGeometry, floorMaterial);
+	floor.position.y = -0.5;
+	floor.rotation.x = Math.PI / 2;
+	scene.add(floor);
+
+	/////////
+	// SKY //
+	/////////
+
+	// recommend either a skybox or fog effect (can't use both at the same time)
+	// without one of these, the scene's background color is determined by webpage background
+
+	// make sure the camera's "far" value is large enough so that it will render the skyBox!
+	var skyBoxGeometry = new THREE.CubeGeometry( 10000, 10000, 10000 );
+	// BackSide: render faces from inside of the cube, instead of from outside (default).
+	var skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0x9999ff, side: THREE.BackSide } );
+	var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
+	scene.add(skyBox);
+
+	// fog must be added to scene before first render
+	//scene.fog = new THREE.FogExp2( 0x9999ff, 0.00025 );
+}
+
+function render() {
+	renderer.render( scene, camera );
+	controls.update();
+}
+
+function animation()
+{
+  requestAnimationFrame( animation );
+	animate(clock.getDelta())
+	render();
+}
+animation()
+
+</script>
+<script>
+	var a = window.location.href.split("?")
+	var title = "room"
+	if(a.length == 2) {
+		title = a[1]
+	}
+	var file = "/"+title+".js"
+	document.title = title
+	var scr = document.createElement('script');
+	scr.setAttribute('src',file);
+	document.getElementById("body").appendChild(scr);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<script>
+function ciao()
+{
+   alert('ciao')
+}
+</script>
+<input type="button" onclick="ciao()" value="salutami">
+<script>
+var n=Math.floor(Math.random()*1000)+1
+function controlla(m)
+{
+ if (n>m)
+ {
+   alert('maggiore')
+ }
+ if (n<m)
+ {
+   alert('minore')
+ }
+ if (n==m)
+ {
+   alert('uguale')
+ }  
+}
+    
+</script>
+<input 
+  type="button"  
+  onclick="
+   controlla(
+     parseInt(
+      prompt('dimmi un numero')
+     )
+   )
+"      
+value="indovina">

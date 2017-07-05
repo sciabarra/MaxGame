@@ -1,0 +1,130 @@
+<script>
+    function aggiungicifra(c) {
+        var d = $('h3').html() + c
+        $('h3').html(parseInt(d))
+    }
+    var m = 0
+    var o = '+'
+
+    function somma() {
+        m = parseInt($('h3').html())
+        $('h3').html('0')
+        o = '+'
+    }
+
+    function sottrai() {
+        m = parseInt($('h3').html())
+        $('h3').html('0')
+        o = '-'
+    }
+
+    function moltiplica() {
+        m = parseInt($('h3').html())
+        $('h3').html('0')
+        o = '*'
+    }
+
+    function dividi() {
+        m = parseInt($('h3').html())
+        $('h3').html('0')
+        o = '/'
+    }
+
+    function calcola() {
+        var t = parseInt($('h3').html())
+        if (o == '+') {
+            $('h3').html(m + t)
+        }
+        if (o == '-') {
+            $('h3').html(m - t)
+        }
+        if (o == '*') {
+            $('h3').html(m * t)
+        }
+        if (o == '/') {
+            $('h3').html(m / t)
+        }
+
+
+    }
+
+    function cancella() {
+        m = parseInt($('h3').html())
+        $('h3').html('0')
+        o = 'c'
+    }
+
+</script>
+
+<table border="10" size="50">
+    <tr>
+        <td colspan="4" align="right">
+            <h3>0</h3>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input type="button" onclick="aggiungicifra('7')" value="7">
+        </td>
+        <td>
+            <input type="button" onclick="aggiungicifra('8')" value="8">
+        </td>
+        <td>
+            <input type="button" onclick="aggiungicifra('9')" value="9">
+        </td>
+
+        <td>
+            <input type="button" value="c" onclick="cancella()">
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <input type="button" onclick="aggiungicifra('4')" value="4">
+        </td>
+        <td>
+            <input type="button" onclick="aggiungicifra('5')" value="5">
+        </td>
+        <td>
+            <input type="button" onclick="aggiungicifra('6')" value="6">
+        </td>
+        <td>
+            <input type="button" value="*" onclick="moltiplica()">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input type="button" onclick="aggiungicifra('1')" value="1">
+        </td>
+        <td>
+            <input type="button" onclick="aggiungicifra('2')" value="2">
+        </td>
+        <td>
+            <input type="button" onclick="aggiungicifra('3')" value="3">
+        </td>
+        <td>
+            <input type="button" value="/" onclick="dividi()">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input type="button" onclick="aggiungicifra('0')" value="0">
+        </td>
+        <td>
+            <input type="button" value="+" onclick="somma()">
+        </td>
+        <td>
+            <input type="button" value="-" onclick="sottrai()">
+        </td>
+        <td>
+            <input type="button" value="=" onclick="calcola()">
+        </td>
+    </tr>
+    <tr>
+</table>
+<script src="http://code.jquery.com/jquery-1.11.3.min.js" />
+</script>
+<script>
+
+
+</script>

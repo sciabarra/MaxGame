@@ -1,0 +1,74 @@
+<script src="http://code.jquery.com/jquery-1.11.3.min.js">
+
+
+</script>
+
+<script>
+    var colonne = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    var righe = [0, 10, 20, 30, 40, 50, 60, 70, 80]
+    document.write('<table border="1" width="100%" bgcolor="#FF0">')
+    var c = 1
+    for (i in righe) {
+        var riga = ''
+        document.write('<tr>')
+        for (j in colonne) {
+            var cifra = righe[i] + colonne[j]
+
+            if (cifra < 10)
+                riga = riga + ' ' + cifra + ' '
+            else
+
+                riga = riga + cifra + ' '
+            document.write('<td id=c' + c + '><h1>' + cifra + '</h1></td>')
+            c++
+
+        }
+        document.write('</tr>')
+        console.log(riga)
+    }
+    document.write('</table>')
+    var a;
+
+    function sacco() {
+
+        a = []
+        var i = 1
+        while (i <= 90) {
+            a.push(i)
+            i++
+        }
+        mescola()
+    }
+
+    function scambia(i, j) {
+
+        t = a[i]
+        a[i] = a[j]
+        a[j] = t
+
+    }
+
+    function mescola() {
+
+        var i = 1
+        while (i <= 10000) {
+            var n = Math.random() * 90
+            n = Math.floor(n)
+
+            var m = Math.random() * 90
+            m = Math.floor(m)
+            scambia(m, n)
+            i++
+        }
+    }
+
+    sacco()
+
+    function estrai() {
+        var e = a.pop()
+        $('#c' + e).html(' ')
+    }
+
+</script>
+
+<input type="button" value=estrai onclick="estrai()"></input>

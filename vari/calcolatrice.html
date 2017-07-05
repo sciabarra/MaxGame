@@ -1,0 +1,15 @@
+<script src="lib/jquery.min.js">
+</script>
+
+<input id="la" type="text">
+<input id="qui" type="text">
+<h1    id="titolo">calcola</h1>
+<script>
+function calcola(){
+var a=$('#la').val()
+var b=$('#qui').val()
+var c=parseInt(a)+parseInt(b)
+    $('h1#titolo').html(c)
+                  }
+</script>
+<input type="button" value="somma" onclick="calcola()">

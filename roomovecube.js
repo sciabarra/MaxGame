@@ -8,6 +8,61 @@ cube.position.y += 10
 
 scene.add(cube);
 
+var cube = new THREE.Mesh(geometry, material);
+cube.position.z += 69
+cube.position.y += 10
+scene.add(cube);
+
+var cube = new THREE.Mesh(geometry, material);
+cube.position.z -= 69
+cube.position.y += 10
+scene.add(cube);
+
+var cube = new THREE.Mesh(geometry, material);
+cube.position.x += 40
+cube.position.y += 10
+scene.add(cube);
+
+var cube = new THREE.Mesh(geometry, material);
+cube.position.x -= 40
+cube.position.y += 10
+scene.add(cube);
+
+var cube = new THREE.Mesh(geometry, material);
+cube.position.x -= 40
+cube.position.y += 10
+cube.position.z += 30
+scene.add(cube);
+
+var cube = new THREE.Mesh(geometry, material);
+cube.position.x -= 40
+cube.position.y += 10
+cube.position.z -= 30
+scene.add(cube);
+
+var cube = new THREE.Mesh(geometry, material);
+cube.position.x += 40
+cube.position.y += 10
+cube.position.z += 30
+scene.add(cube);
+
+var cube = new THREE.Mesh(geometry, material);
+cube.position.x += 40
+cube.position.y += 10
+cube.position.z -= 30
+scene.add(cube);
+
+var geometry = new THREE.CubeGeometry(20, 20, 20, 0, 0, 0);
+var material = new THREE.MeshLambertMaterial({
+  color: 0xf6546a
+})
+
+var cube = new THREE.Mesh(geometry, material);
+cube.position.x -= 200
+cube.position.y += 10
+cube.position.z += 30
+scene.add(cube);
+
 document.onkeydown = function(e) {
   console.log(e)
   //sinistra
@@ -25,7 +80,7 @@ document.onkeydown = function(e) {
   //z
   if (e.keyCode == 88)
     cube.rotation.y += 0.1;
-	//x
+  //x
   if (e.keyCode == 90)
     cube.rotation.y -= 0.1;
 

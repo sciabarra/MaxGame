@@ -1,0 +1,27 @@
+<html>
+<script>
+    var n = Math.random() * 100
+    n = Math.floor(n) + 1
+        //alert(n)
+    function indovina() {
+        var m = prompt('dimmi un numero')
+        var m1 = parseInt(m)
+        while (n != m1) {
+
+            if (n > m1) {
+                alert('il mio numero è maggiore')
+            }
+            if (n < m1) {
+                alert('il mio numero è minore')
+            }
+            var m = prompt('dimmi un numero')
+            var m1 = parseInt(m)
+        }
+
+        alert('bravo hai indovinato!')
+    }
+
+</script>
+<input type="button" value="indovina" onclick="indovina()">
+
+</html>

@@ -24,16 +24,18 @@ var modz = [1,0,-1,0]
 document.onkeydown = function(e) {
   //console.log(e)
   //sinistra
-  if (e.keyCode == 37){
-    pos = Math.abs((pos - 1) % 4)
-    drone.rotation.z -= Math.PI / 2;
+  if (e.keyCode == 37) {
+      if(pos ==0) pos = 3
+      else pos = pos - 1
+      drone.rotation.z -= Math.PI / 2;
   }
 
   //destra
-  if (e.keyCode == 39){
+  if (e.keyCode == 39) {
     pos = (pos + 1) % 4
     drone.rotation.z += Math.PI / 2;
   }
+  
   //avanti
   if (e.keyCode == 38) {
     drone.position.z += modz[pos];

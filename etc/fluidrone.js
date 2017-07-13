@@ -69,7 +69,7 @@ function animate() {
   if(drone.position.z > dpz)
     drone.position.z -= 0.1
   if(drone.rotation.z > drz)
-      drone.rotation.z -= Math.PI/32
+      drone.rotation.z -= Math.PI/128
   if(drone.rotation.z < drz)
-      drone.rotation.z += Math.PI/32
+      drone.rotation.z += Math.PI/128
 }

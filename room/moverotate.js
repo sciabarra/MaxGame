@@ -6,7 +6,6 @@ cube.position.y += 10
 
 scene.add( cube );
 
-
 // controls
 cube.rotating = false
 
@@ -32,7 +31,6 @@ document.onkeydown = function(e) {
 		} else if(key == 40) {
 			cube.position.z += 0.5
 		}
-
 	}
 }
 

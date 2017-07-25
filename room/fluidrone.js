@@ -6,7 +6,7 @@ var dpx = undefined
 var dpz = undefined
 
 var loader = new THREE.STLLoader();
-loader.load('/drone.stl', function(geometry) {
+loader.load('/room/drone.stl', function(geometry) {
   var material = new THREE.MeshPhongMaterial({
     color: 0xff5533,
     specular: 0x111111,

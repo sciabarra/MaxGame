@@ -4,14 +4,14 @@
 	<title>Hello World (Three.js)</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-    <link rel=stylesheet href="lib/base.css"/>
+    <link rel=stylesheet href="/lib/base.css"/>
 </head>
 <body id="body">
 
-<script src="node_modules/three/three.min.js"></script>
-<script src="node_modules/three/examples/js/loaders/STLLoader.js"></script>
-<script src="node_modules/jquery/dist/jquery.min.js"></script>
-<script src="lib/OrbitControls.js"></script>
+<script src="/node_modules/three/three.min.js"></script>
+<script src="/node_modules/three/examples/js/loaders/STLLoader.js"></script>
+<script src="/node_modules/jquery/dist/jquery.min.js"></script>
+<script src="/lib/OrbitControls.js"></script>
 
 <!-- ------------------------------------------------------------ -->
 <div id="ThreeJS" style="z-index: 1; position: absolute; left:0px; top:0px"></div>
@@ -150,7 +150,7 @@ animation()
 	if(a.length == 2) {
 		title = a[1]
 	}
-	var file = "/"+title+".js"
+	var file = "/room/"+title+".js"
 	document.title = title
 	var scr = document.createElement('script');
 	scr.setAttribute('src',file);

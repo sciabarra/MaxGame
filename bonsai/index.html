@@ -1,0 +1,20 @@
+<!doctype html>
+<head>
+<script src="/lib/bonsai.js"></script>
+</head>
+<body>
+<a href="http://docs.bonsaijs.org/">Docs</a>
+<div id="movie"></div>
+<script>
+var a = window.location.href.split("?")
+var file = "/bonsai/sample.js"
+if(a.length == 2) {
+    file = "/bonsai/"+a[1]+".js"
+    document.title = a[1]
+} else {
+    document.title = "sample"
+}
+bonsai.run(document.getElementById('movie'), file)
+</script>
+</body>
+</html>

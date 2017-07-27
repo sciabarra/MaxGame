@@ -18,17 +18,40 @@ loader.load('/room/drone.stl', function(geometry) {
   drone.receiveShadow = true;
   scene.add(drone);
 })
-
-var pos = 0
-var modx = [0, 0.5, 1, 0.5, 0, -0.5, -1, -0.5]
-var modz = [-1, -0.5, 0, 0.5, 1, 0.5, 0, -0.5]
-
-// inizializza proiettile
-var geometryp = new THREE.BoxGeometry(5, 5, 5);
-var materialp = new THREE.MeshLambertMaterial({
+//bersaglio
+var geometry1 = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+var material1 = new THREE.MeshLambertMaterial({
   color: 0x00ff00
 })
 
+
+var pos = 0
+//var modx = [0, 0.5, 1, 0.5, 0, -0.5, -1, -0.5]
+//var modz = [-1, -0.5, 0, 0.5, 1, 0.5, 0, -0.5]
+
+var vel = 2
+var modx = [0, vel, 2*vel, vel, 0, -vel, -2*vel, -vel]
+var modz = [-2*vel, -vel, 0, vel, 2*vel, vel, 0, -vel]
+
+
+
+// inizializza proiettile
+var geometryb = new THREE.BoxGeometry(50, 50, 50);
+var materialb = new THREE.MeshLambertMaterial({
+  color: 0xf6546a
+})
+var bersaglio = new THREE.Mesh(geometryb, materialb);
+
+bersaglio.position.y = 25
+bersaglio.position.x = Math.random() * 500
+bersaglio.position.z = Math.random() * 500
+scene.add(bersaglio)
+
+
+var geometryp = new THREE.BoxGeometry(5, 5, 5);
+var materialp = new THREE.MeshLambertMaterial({
+  color: 0xf6546a
+})
 var proiettile = new THREE.Mesh(geometryp, materialp);
 proiettile.position.y = 20
 proiettile.position.x = 0
@@ -36,8 +59,6 @@ proiettile.position.z = 0
 proiettile.visible = false
 scene.add(proiettile)
 
-var x = proiettile.position.x
-var z = proiettile.position.z
 var dx = 0
 var dz = 0
 
@@ -75,11 +96,12 @@ document.onkeydown = function(e) {
     drone.position.z -= modz[pos];
     drone.position.x -= modx[pos];
   }
+
   if (e.keyCode == 32) {
     proiettile.position.x = drone.position.x
     proiettile.position.z = drone.position.z
-    dz = modz[pos] * 5;
-    dx = modx[pos] * 5;
+    dz = modz[pos] * 2;
+    dx = modx[pos] * 2;
     proiettile.visible = true
 
   }
@@ -91,5 +113,15 @@ document.onkeydown = function(e) {
 function animate() {
   proiettile.position.z += dz
   proiettile.position.x += dx
+  console.log(proiettile.position.x +":"+proiettile.position.z+" "+bersaglio.position.x+":"+bersaglio.position.z)
 
+  if (proiettile.position.x >= bersaglio.position.x - 50 &&
+    proiettile.position.x <= bersaglio.position.x + 50 &&
+    proiettile.position.z >= bersaglio.position.z - 50 &&
+    proiettile.position.z <= bersaglio.position.z + 50) {
+    bersaglio.position.y = 25
+    bersaglio.position.x = Math.random() * 500
+    bersaglio.position.z = Math.random() * 500
+
+  }
 }

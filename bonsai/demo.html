@@ -1,0 +1,28 @@
+<!doctype html>
+<head>
+<script src="/lib/bonsai.js"></script>
+</head>
+<body>
+<div id="movie"></div>
+<script>
+bonsai.run(document.getElementById('movie'), { code: function() {
+// inizio codice
+var SIZE = 650
+for (i of [0, 60, 120, 180 ]){
+  var square = new Rect(0, 0, 50, 50);
+  square.fill('red');
+  square.animate(new KeyframeAnimation('10s', {
+    from:  { x: i, y: i },
+    '25%': { x: SIZE+i, y: i},
+    '50%': { y: SIZE-i, x: SIZE+i },
+    '75%': { x: i, y: SIZE-i},
+    to: { x: i, y: i}
+  }));
+  square.addTo(stage);
+}
+
+// fine codice
+}})
+</script>
+</body>
+</html>
